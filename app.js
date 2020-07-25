@@ -14,6 +14,6 @@ app.use('/api/user', authRoutes)
 
 
 
-mongoose.connect('mongodb+srv://robin19093:robin19093@cluster0-tfdhd.mongodb.net/internship?retryWrites=true&w=majority')
+mongoose.connect(process.env.DB)
 .then(app.listen(5001))
 .catch(err=>console.log(err))
