@@ -10,6 +10,12 @@ router.post('/register',[
     check('password').isLength({min: 6}).withMessage('must be at least 5 chars long')
 ], register)
 
+
+
+
+//rdfghjkrtyuij
+//rdfytguhijktuygihjk
+
 router.post('/login', [
     check('email').isEmail().withMessage("should be email").notEmpty().withMessage("cannot leave empty"),
     check('password').isLength({min: 6}).withMessage('must be at least 5 chars long')
