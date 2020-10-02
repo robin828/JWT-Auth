@@ -48,6 +48,37 @@ const register = async(req, res, next)=>{
     })
 }
 
+const login = async(req, res, next)=>{
+    const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array()[0].msg });
+  }
+  const { email, password } = req.body; 
+
+  let existingUser;
+  try {
+      existingUser = await User.findOne({email})
+  } catch (error) {
+    return res.status(400).send('something went wrong')
+  }
+  if(!existingUser){
+    return res.status(400).send('User does not exist please sign up first')
+  }
+  const validPassword = await bcrypt.compare(password, existingUser.password)
+  if(!validPassword){
+      return res.status(400).send("Invalid Password")
+  }
+  //creating token
+  try {
+    const token = JWT.sign({_id: existingUser._id}, "shjvshfu")
+  res.header('auth-token', token).send(token)    
+  } catch (error) {
+      console.log(error)
+    return res.status(400).send('something went wrong1')
+  }
+  res.send("logged in")
+  
+}
 
 
 exports.register = register
